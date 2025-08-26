@@ -40,16 +40,28 @@ export default function CustomerBooking() {
     getStatusFromId,
     getServiceFromId,
   } = useGetCompanyDetails(companyId ? companyId : 0);
-  const { appointmentDetails, fetchAppointmentDetails, updateAppointmentStatus } =
-    useGetAppointmentDetails(companyId ? companyId : 0, filter);
+  const {
+    appointmentDetails,
+    fetchAppointmentDetails,
+    updateAppointmentStatus,
+  } = useGetAppointmentDetails(companyId ? companyId : 0, filter);
 
   useEffect(() => {
     setAppointments(appointmentDetails ? appointmentDetails : []);
   }, [appointmentDetails]);
 
   return (
-    <Box maxW="8xl" mx="auto" mt={10} p={6}>
-      <Heading size="lg" mb={4}>
+    <Box
+      maxW={{ base: "100%", md: "8xl" }}
+      mx="auto"
+      mt={{ base: 2, md: 10 }}
+      p={{ base: 2, md: 6 }}
+    >
+      <Heading
+        size={{ base: "md", md: "lg" }}
+        mb={4}
+        textAlign={{ base: "center", md: "left" }}
+      >
         {`Welcome to ${
           companyDetails
             ? companyDetails.filter((c) => c.companyId == companyId)[0]
@@ -57,7 +69,7 @@ export default function CustomerBooking() {
             : "Nayan Test Company"
         }`}
       </Heading>
-      <VStack align="stretch" spacing={4}>
+      <VStack align="stretch" spacing={{ base: 2, md: 4 }}>
         <AppointmentFilter
           companyId={companyId}
           filter={filter}
@@ -73,7 +85,9 @@ export default function CustomerBooking() {
           updateAppointmentStatus={updateAppointmentStatus}
         />
         {!appointments.length && (
-          <Text color="gray.500">No appointments for this date.</Text>
+          <Text color="gray.500" textAlign="center">
+            No appointments for this date.
+          </Text>
         )}
         <NewBooking
           services={appointmentServicesInfo}

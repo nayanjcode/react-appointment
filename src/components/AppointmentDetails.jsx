@@ -1,4 +1,4 @@
-import { Button, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Button, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { APPOINTMENT_STATUS } from "../constants";
 import { StatusAction } from "./StatusAction";
 
@@ -7,17 +7,21 @@ export const AppointmentDetails = ({
   appointments,
   getServiceFromId,
   getStatusFromId,
-  updateAppointmentStatus
+  updateAppointmentStatus,
 }) => {
   return (
-    <>
-      <Table variant="striped">
+    <Box overflowX="auto" w="100%">
+      <Table variant="striped" size={{ base: "sm", md: "md" }} minWidth="600px">
         <Thead>
           <Tr>
             <Th>ID</Th>
             <Th>Customer</Th>
-            {isAdmin ? <Th>Email Id</Th> : null}
-            {isAdmin ? <Th>Contact</Th> : null}
+            {isAdmin ? (
+              <Th display={{ base: "none", md: "table-cell" }}>Email Id</Th>
+            ) : null}
+            {isAdmin ? (
+              <Th display={{ base: "none", md: "table-cell" }}>Contact</Th>
+            ) : null}
             <Th>Service</Th>
             <Th>Date</Th>
             <Th>Status</Th>
@@ -29,20 +33,27 @@ export const AppointmentDetails = ({
             <Tr key={r.appointmentId}>
               <Td>{r.appointmentId}</Td>
               <Td>{`${r.firstName} ${r.lastName}`}</Td>
-              {isAdmin ? <Td>{r.emailId ?? ""}</Td> : null}
-              {isAdmin ? <Td>{r.contactNumber ?? ""}</Td> : null}
+              {isAdmin ? (
+                <Td display={{ base: "none", md: "table-cell" }}>
+                  {r.emailId ?? ""}
+                </Td>
+              ) : null}
+              {isAdmin ? (
+                <Td display={{ base: "none", md: "table-cell" }}>
+                  {r.contactNumber ?? ""}
+                </Td>
+              ) : null}
               <Td>{getServiceFromId(r.serviceId)}</Td>
               <Td>
-                {
-                  new Intl.DateTimeFormat("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  }).format(new Date(r.appointmentDate))
-                }</Td>
+                {new Intl.DateTimeFormat("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                }).format(new Date(r.appointmentDate))}
+              </Td>
               <Td>{getStatusFromId(r.statusId)}</Td>
               <Td>
                 <StatusAction
@@ -56,6 +67,6 @@ export const AppointmentDetails = ({
           ))}
         </Tbody>
       </Table>
-    </>
+    </Box>
   );
 };

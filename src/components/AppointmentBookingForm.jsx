@@ -120,14 +120,13 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
   }, [services]);
 
   useEffect(() => {
-    if (serviceOptions && serviceOptions.length)
-    {
-      setForm(form => {
+    if (serviceOptions && serviceOptions.length) {
+      setForm((form) => {
         return {
           ...form,
-          serviceIds: [serviceOptions[0].value]
-        }
-      })
+          serviceIds: [serviceOptions[0].value],
+        };
+      });
     }
   }, [serviceOptions]);
 
@@ -137,26 +136,34 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
 
   return (
     <Box
-      maxW="lg"
+      maxW={{ base: "100%", md: "lg" }}
       mx="auto"
-      p={6}
-      my="4"
+      p={{ base: 2, md: 6 }}
+      my={{ base: 2, md: 4 }}
       borderWidth="1px"
       borderRadius="lg"
       bg="white"
       boxShadow="sm"
     >
-      <Heading size="lg" mb={4}>
+      <Heading
+        size={{ base: "md", md: "lg" }}
+        mb={4}
+        textAlign={{ base: "center", md: "left" }}
+      >
         Book Your Appointment
       </Heading>
-      <VStack spacing={4} align="stretch">
+      <VStack spacing={{ base: 2, md: 4 }} align="stretch">
         <Select
           placeholder="Select Service"
           name="serviceId"
-          value={serviceOptions.filter((s) => form.serviceIds.includes(s.value))}
+          value={serviceOptions.filter((s) =>
+            form.serviceIds.includes(s.value)
+          )}
           onChange={(value) => {
-            console.log(value);
-            setForm((prev) => ({ ...prev, serviceIds: value.map(v => v.value) }));
+            setForm((prev) => ({
+              ...prev,
+              serviceIds: value.map((v) => v.value),
+            }));
           }}
           options={serviceOptions}
           isClearable={false}
@@ -164,11 +171,21 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
           isMulti={true}
           hideSelectedOptions={false}
         />
-        {/* <Input type="date" name="date" value={form.date} onChange={handleChange} />
-        <Input type="time" name="time" value={form.time} onChange={handleChange} /> */}
-        <HStack>
-          <Input name="appointmentDate" value={nextAppointmentTime} readOnly />
-          <Button onClick={() => fetchNextAppointmentTime()} maxW="100px">
+        <HStack
+          flexDirection={{ base: "column", md: "row" }}
+          alignItems="stretch"
+          spacing={{ base: 2, md: 4 }}
+        >
+          <Input
+            name="appointmentDate"
+            value={nextAppointmentTime}
+            readOnly
+            w={{ base: "100%", md: "auto" }}
+          />
+          <Button
+            onClick={() => fetchNextAppointmentTime()}
+            w={{ base: "100%", md: "100px" }}
+          >
             Refresh
           </Button>
         </HStack>
@@ -177,29 +194,41 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
           name="fname"
           value={form.fname}
           onChange={handleChange}
+          fontSize={{ base: "md", md: "lg" }}
         />
         <Input
           placeholder="Last Name"
           name="lname"
           value={form.lname}
           onChange={handleChange}
+          fontSize={{ base: "md", md: "lg" }}
         />
         <Input
           placeholder="Email (Optional if Phone provided)"
           name="email"
           value={form.email}
           onChange={handleChange}
+          fontSize={{ base: "md", md: "lg" }}
         />
         <Input
           placeholder="Phone (Optional if Email provided)"
           name="phone"
           value={form.phone}
           onChange={handleChange}
+          fontSize={{ base: "md", md: "lg" }}
         />
-        <Button colorScheme="blue" onClick={submit}>
+        <Button
+          colorScheme="blue"
+          onClick={submit}
+          w={{ base: "100%", md: "auto" }}
+        >
           Book Appointment
         </Button>
-        <Text fontSize="sm" color="gray.500">
+        <Text
+          fontSize={{ base: "xs", md: "sm" }}
+          color="gray.500"
+          textAlign={{ base: "center", md: "left" }}
+        >
           After booking, an admin will confirm or cancel your request.
         </Text>
       </VStack>
