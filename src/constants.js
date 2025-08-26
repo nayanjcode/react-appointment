@@ -1,0 +1,7 @@
+export const APPOINTMENT_STATUS = {
+    PENDING: 1,
+    CONFIRMED: 2,
+    CANCELLED: 3,
+    COMPLETED: 4,
+    IN_PROGRESS: 5
+}
