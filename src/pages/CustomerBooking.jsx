@@ -13,9 +13,9 @@ import { useParams } from "react-router-dom";
 import { APPOINTMENT_STATUS } from "../constants";
 import { useGetCompanyDetails } from "../hooks/useGetCompanyDetails";
 import { useGetAppointmentDetails } from "../hooks/useGetAppointmentDetails";
-import { AppointmentFilter } from "../components/AppointmentFilter";
 import { AppointmentDetails } from "../components/AppointmentDetails";
 import { NewBooking } from "../components/NewBooking";
+import { AppointmentFilter } from "../components/AppointmentFilter";
 
 export default function CustomerBooking() {
   const { companyId } = useParams();
@@ -78,21 +78,25 @@ export default function CustomerBooking() {
           appointmentStatusInfo={appointmentStatusInfo}
         />
 
-        <AppointmentDetails
-          appointments={appointments}
-          getServiceFromId={getServiceFromId}
-          getStatusFromId={getStatusFromId}
-          updateAppointmentStatus={updateAppointmentStatus}
-        />
-        {!appointments.length && (
-          <Text color="gray.500" textAlign="center">
-            No appointments for this date.
-          </Text>
-        )}
-        <NewBooking
-          services={appointmentServicesInfo}
-          onSuccess={() => fetchAppointmentDetails()}
-        />
+        <Box flex={1} minH="300px">
+          <AppointmentDetails
+            appointments={appointments}
+            getServiceFromId={getServiceFromId}
+            getStatusFromId={getStatusFromId}
+            updateAppointmentStatus={updateAppointmentStatus}
+          />
+          {!appointments.length && (
+            <Text color="gray.500" textAlign="center">
+              No appointments for this date.
+            </Text>
+          )}
+        </Box>
+        <Box mt={4}>
+          <NewBooking
+            services={appointmentServicesInfo}
+            onSuccess={() => fetchAppointmentDetails()}
+          />
+        </Box>
       </VStack>
     </Box>
   );

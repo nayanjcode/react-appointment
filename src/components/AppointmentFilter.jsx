@@ -1,7 +1,15 @@
-import { Box, Button, HStack, Input, VStack, IconButton, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  Input,
+  VStack,
+  IconButton,
+  Collapse,
+} from "@chakra-ui/react";
 import { FaFilter } from "react-icons/fa";
 import { Select } from "chakra-react-select";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 export const AppointmentFilter = ({
   isAdmin,
@@ -12,36 +20,27 @@ export const AppointmentFilter = ({
   appointmentStatusInfo,
 }) => {
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });
+  const [showFilters, setShowFilters] = useState(false);
 
   return (
-    <>
-      {!isOpen && (
-        <IconButton
-          icon={<FaFilter />}
-          aria-label="Show filters"
-          position="fixed"
-          bottom={{ base: 20, md: 24 }}
-          right={{ base: 4, md: 10 }}
-          zIndex={1200}
-          colorScheme="blue"
-          size="lg"
-          boxShadow="md"
-          borderRadius="full"
-          onClick={onOpen}
-        />
-      )}
-      {isOpen && (
+    <Box w="100%" mb={2}>
+      <IconButton
+        icon={<FaFilter />}
+        aria-label={showFilters ? "Hide filters" : "Show filters"}
+        colorScheme={showFilters ? "gray" : "blue"}
+        variant={showFilters ? "outline" : "solid"}
+        size="md"
+        mb={2}
+        alignSelf="flex-end"
+        onClick={() => setShowFilters((v) => !v)}
+      />
+      <Collapse in={showFilters} animateOpacity>
         <Box
-          position="fixed"
-          left={0}
-          bottom={0}
           w="100%"
-          zIndex={1200}
           bg="white"
-          boxShadow="0 -2px 12px rgba(0,0,0,0.08)"
+          boxShadow="sm"
+          borderRadius="xl"
           p={{ base: 2, md: 4 }}
-          borderTopRadius="xl"
         >
           <HStack
             spacing={{ base: 2, md: 4, lg: 8 }}
@@ -80,6 +79,8 @@ export const AppointmentFilter = ({
                   isClearable={false}
                   isMulti={true}
                   hideSelectedOptions={false}
+                  menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
+                  menuPosition="fixed"
                 />
               </Box>
             ) : null}
@@ -91,17 +92,9 @@ export const AppointmentFilter = ({
             >
               Refresh
             </Button>
-            <Button
-              variant="ghost"
-              colorScheme="gray"
-              onClick={onClose}
-              ml={2}
-            >
-              Hide Filters
-            </Button>
           </HStack>
         </Box>
-      )}
-    </>
+      </Collapse>
+    </Box>
   );
 };
