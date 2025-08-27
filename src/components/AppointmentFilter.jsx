@@ -36,24 +36,15 @@ export const AppointmentFilter = ({
             w="100%"
             alignItems="center"
             flexWrap="wrap"
-            justifyContent={{ base: "center", lg: "flex-start" }}
+            justifyContent="flex-start"
           >
-            <HStack spacing={2}>
-              <Input
-                maxW={{ base: "100%", md: "250px" }}
-                type="date"
-                value={filter.date}
-                onChange={(e) => setFilter({ ...filter, date: e.target.value })}
-                flexShrink={0}
-              />
-              <IconButton
-                icon={<FaSync />}
-                aria-label="Refresh"
-                colorScheme="blue"
-                onClick={applyFilter}
-                size="md"
-              />
-            </HStack>
+            <Input
+              maxW={{ base: "100%", md: "250px" }}
+              type="date"
+              value={filter.date}
+              onChange={(e) => setFilter({ ...filter, date: e.target.value })}
+              flexShrink={0}
+            />
             {isAdmin ? (
               <Box w={{ base: "100%", md: "300px", lg: "400px" }}>
                 <Select

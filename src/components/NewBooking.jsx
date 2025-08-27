@@ -17,12 +17,6 @@ export const NewBooking = ({ services, onSuccess }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Box
-        w="100%"
-        bg="whiteAlpha.900"
-        boxShadow="0 -2px 12px rgba(0,0,0,0.08)"
-        p={{ base: 2, md: 4 }}
-      >
         <Button
           w={{ base: "100%", md: "fit-content" }}
           colorScheme="blue"
@@ -36,7 +30,6 @@ export const NewBooking = ({ services, onSuccess }) => {
         >
           <Text>Book New Appointment</Text>
         </Button>
-      </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent bg="gray.100" p={{ base: 2, md: 0 }}>

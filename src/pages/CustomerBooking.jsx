@@ -19,7 +19,7 @@ import { useGetAppointmentDetails } from "../hooks/useGetAppointmentDetails";
 import { AppointmentDetails } from "../components/AppointmentDetails";
 import { NewBooking } from "../components/NewBooking";
 import { AppointmentFilter } from "../components/AppointmentFilter";
-import { FaFilter } from "react-icons/fa";
+import { FaFilter, FaSync } from "react-icons/fa";
 
 export default function CustomerBooking() {
   const filterDisclosure = useDisclosure();
@@ -85,7 +85,6 @@ export default function CustomerBooking() {
               colorScheme={filterDisclosure.isOpen ? "gray" : "blue"}
               variant={filterDisclosure.isOpen ? "outline" : "solid"}
               size="md"
-              mb={2}
               alignSelf="flex-end"
               onClick={filterDisclosure.onToggle}
             />
@@ -93,7 +92,13 @@ export default function CustomerBooking() {
               services={appointmentServicesInfo}
               onSuccess={() => fetchAppointmentDetails()}
             />
-
+            <IconButton
+              icon={<FaSync />}
+              aria-label="Refresh"
+              colorScheme="blue"
+              onClick={() => fetchAppointmentDetails()}
+              size="md"
+            />
           </HStack>
           <AppointmentFilter
             companyId={companyId}

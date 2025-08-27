@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 import { useGetCompanyDetails } from "../hooks/useGetCompanyDetails";
 import { useGetAppointmentDetails } from "../hooks/useGetAppointmentDetails";
 import { AppointmentFilter } from "../components/AppointmentFilter";
-import { FaFilter } from "react-icons/fa";
+import { FaFilter, FaSync } from "react-icons/fa";
 import { APPOINTMENT_STATUS } from "../constants";
 
 export default function AdminDashboard() {
@@ -75,7 +75,7 @@ export default function AdminDashboard() {
       </Heading>
 
       <VStack align="stretch" spacing={{ base: 2, md: 4 }}>
-        <Box pos="sticky" top="0" bg="white">
+        <Box pos="sticky" top="0" bg="white" >
           <HStack>
             <IconButton
               icon={<FaFilter />}
@@ -85,13 +85,19 @@ export default function AdminDashboard() {
               colorScheme={filterDisclosure.isOpen ? "gray" : "blue"}
               variant={filterDisclosure.isOpen ? "outline" : "solid"}
               size="md"
-              mb={2}
               alignSelf="flex-end"
               onClick={filterDisclosure.onToggle}
             />
             <NewBooking
               services={appointmentServicesInfo}
               onSuccess={() => fetchAppointmentDetails()}
+            />
+            <IconButton
+              icon={<FaSync />}
+              aria-label="Refresh"
+              colorScheme="blue"
+              onClick={() => fetchAppointmentDetails()}
+              size="md"
             />
           </HStack>
           <AppointmentFilter
