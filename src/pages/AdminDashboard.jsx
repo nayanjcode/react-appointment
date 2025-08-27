@@ -76,18 +76,24 @@ export default function AdminDashboard() {
 
       <VStack align="stretch" spacing={{ base: 2, md: 4 }}>
         <Box pos="sticky" top="0" bg="white">
-          <IconButton
-            icon={<FaFilter />}
-            aria-label={
-              filterDisclosure.isOpen ? "Hide filters" : "Show filters"
-            }
-            colorScheme={filterDisclosure.isOpen ? "gray" : "blue"}
-            variant={filterDisclosure.isOpen ? "outline" : "solid"}
-            size="md"
-            mb={2}
-            alignSelf="flex-end"
-            onClick={filterDisclosure.onToggle}
-          />
+          <HStack>
+            <IconButton
+              icon={<FaFilter />}
+              aria-label={
+                filterDisclosure.isOpen ? "Hide filters" : "Show filters"
+              }
+              colorScheme={filterDisclosure.isOpen ? "gray" : "blue"}
+              variant={filterDisclosure.isOpen ? "outline" : "solid"}
+              size="md"
+              mb={2}
+              alignSelf="flex-end"
+              onClick={filterDisclosure.onToggle}
+            />
+            <NewBooking
+              services={appointmentServicesInfo}
+              onSuccess={() => fetchAppointmentDetails()}
+            />
+          </HStack>
           <AppointmentFilter
             isAdmin={true}
             companyId={companyId}
@@ -96,10 +102,6 @@ export default function AdminDashboard() {
             applyFilter={fetchAppointmentDetails}
             appointmentStatusInfo={appointmentStatusInfo}
             showFilters={filterDisclosure.isOpen}
-          />
-          <NewBooking
-            services={appointmentServicesInfo}
-            onSuccess={() => fetchAppointmentDetails()}
           />
         </Box>
 
