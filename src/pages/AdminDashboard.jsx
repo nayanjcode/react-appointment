@@ -69,15 +69,24 @@ export default function AdminDashboard() {
             : "Nayan Test Company"
         }`}
       </Heading>
+      
       <VStack align="stretch" spacing={{ base: 2, md: 4 }}>
-        <AppointmentFilter
-          isAdmin={true}
-          companyId={companyId}
-          filter={filter}
-          setFilter={setFilter}
-          applyFilter={fetchAppointmentDetails}
-          appointmentStatusInfo={appointmentStatusInfo}
-        />
+        <Box pos="sticky" top="0" bg="white">
+
+          <AppointmentFilter
+            isAdmin={true}
+            companyId={companyId}
+            filter={filter}
+            setFilter={setFilter}
+            applyFilter={fetchAppointmentDetails}
+            appointmentStatusInfo={appointmentStatusInfo}
+          />
+          <NewBooking
+            services={appointmentServicesInfo}
+            onSuccess={() => fetchAppointmentDetails()}
+          />
+
+        </Box>
 
         <AppointmentDetails
           isAdmin={true}
@@ -85,16 +94,7 @@ export default function AdminDashboard() {
           getServiceFromId={getServiceFromId}
           getStatusFromId={getStatusFromId}
           updateAppointmentStatus={updateAppointmentStatus}
-        />
-        {!appointments.length && (
-          <Text color="gray.500" textAlign="center">
-            No appointments for this date.
-          </Text>
-        )}
-        <NewBooking
-          services={appointmentServicesInfo}
-          onSuccess={() => fetchAppointmentDetails()}
-        />
+        />        
       </VStack>
     </Box>
   );

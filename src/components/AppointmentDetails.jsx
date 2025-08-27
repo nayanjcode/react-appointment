@@ -9,7 +9,7 @@ export const AppointmentDetails = ({
   updateAppointmentStatus,
 }) => {
   return (
-    <VStack w="100%" spacing={4} align="center" py={2}>
+    <VStack w="100%" spacing={4} align="center" py={2} overflow="scroll">
       {appointments.length === 0 && (
         <Text color="gray.500" fontSize="md" textAlign="center">
           No appointments found for this date. Book your slot now!

@@ -8,6 +8,7 @@ import {
   VStack,
   useToast,
   Text,
+  HStack,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { APPOINTMENT_STATUS } from "../constants";
@@ -16,6 +17,7 @@ import { useGetAppointmentDetails } from "../hooks/useGetAppointmentDetails";
 import { AppointmentDetails } from "../components/AppointmentDetails";
 import { NewBooking } from "../components/NewBooking";
 import { AppointmentFilter } from "../components/AppointmentFilter";
+import { AppHeader } from "../components/AppHeader";
 
 export default function CustomerBooking() {
   const { companyId } = useParams();
@@ -69,32 +71,27 @@ export default function CustomerBooking() {
             : "Nayan Test Company"
         }`}
       </Heading>
-      <VStack align="stretch" spacing={{ base: 2, md: 4 }}>
-        <AppointmentFilter
-          companyId={companyId}
-          filter={filter}
-          setFilter={setFilter}
-          applyFilter={fetchAppointmentDetails}
-          appointmentStatusInfo={appointmentStatusInfo}
-        />
+      <VStack align="stretch" m={2} spacing={{ base: 2, md: 4 }}>
+        <Box pos="sticky" top="0" bg="white">
+          <AppointmentFilter
+              companyId={companyId}
+              filter={filter}
+              setFilter={setFilter}
+              applyFilter={fetchAppointmentDetails}
+              appointmentStatusInfo={appointmentStatusInfo}
+            />
+            <NewBooking
+              services={appointmentServicesInfo}
+              onSuccess={() => fetchAppointmentDetails()}
+            />
+        </Box>
 
-        <Box flex={1} minH="300px">
+        <Box flex={1}>
           <AppointmentDetails
             appointments={appointments}
             getServiceFromId={getServiceFromId}
             getStatusFromId={getStatusFromId}
             updateAppointmentStatus={updateAppointmentStatus}
-          />
-          {!appointments.length && (
-            <Text color="gray.500" textAlign="center">
-              No appointments for this date.
-            </Text>
-          )}
-        </Box>
-        <Box mt={4}>
-          <NewBooking
-            services={appointmentServicesInfo}
-            onSuccess={() => fetchAppointmentDetails()}
           />
         </Box>
       </VStack>

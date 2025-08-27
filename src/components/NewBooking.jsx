@@ -11,17 +11,14 @@ import {
 } from "@chakra-ui/react";
 import { ModalCloseButton } from "@chakra-ui/react";
 import { ModalOverlay } from "@chakra-ui/react";
+import { FaCalendarWeek } from "react-icons/fa6";
 
 export const NewBooking = ({ services, onSuccess }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       <Box
-        position="fixed"
-        left={0}
-        bottom={0}
         w="100%"
-        zIndex={1000}
         bg="whiteAlpha.900"
         boxShadow="0 -2px 12px rgba(0,0,0,0.08)"
         p={{ base: 2, md: 4 }}
