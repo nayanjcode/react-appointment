@@ -34,9 +34,7 @@ export const NewBooking = ({ services, onSuccess }) => {
             console.log("New booking booked");
           }}
         >
-          <Text>
-            Book New Appointment
-          </Text>
+          <Text>Book New Appointment</Text>
         </Button>
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>

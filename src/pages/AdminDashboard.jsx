@@ -69,10 +69,9 @@ export default function AdminDashboard() {
             : "Nayan Test Company"
         }`}
       </Heading>
-      
+
       <VStack align="stretch" spacing={{ base: 2, md: 4 }}>
         <Box pos="sticky" top="0" bg="white">
-
           <AppointmentFilter
             isAdmin={true}
             companyId={companyId}
@@ -85,16 +84,23 @@ export default function AdminDashboard() {
             services={appointmentServicesInfo}
             onSuccess={() => fetchAppointmentDetails()}
           />
-
         </Box>
 
-        <AppointmentDetails
-          isAdmin={true}
-          appointments={appointments}
-          getServiceFromId={getServiceFromId}
-          getStatusFromId={getStatusFromId}
-          updateAppointmentStatus={updateAppointmentStatus}
-        />        
+        <Box
+          flex={1}
+          overflowY="auto"
+          maxH="calc(100vh - 220px)"
+          pt={{ base: 4, md: 6 }}
+          pb={{ base: 16, md: 20 }}
+        >
+          <AppointmentDetails
+            isAdmin={true}
+            appointments={appointments}
+            getServiceFromId={getServiceFromId}
+            getStatusFromId={getStatusFromId}
+            updateAppointmentStatus={updateAppointmentStatus}
+          />
+        </Box>
       </VStack>
     </Box>
   );

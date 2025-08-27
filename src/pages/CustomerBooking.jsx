@@ -73,19 +73,25 @@ export default function CustomerBooking() {
       <VStack align="stretch" m={2} spacing={{ base: 2, md: 4 }}>
         <Box pos="sticky" top="0" bg="white">
           <AppointmentFilter
-              companyId={companyId}
-              filter={filter}
-              setFilter={setFilter}
-              applyFilter={fetchAppointmentDetails}
-              appointmentStatusInfo={appointmentStatusInfo}
-            />
-            <NewBooking
-              services={appointmentServicesInfo}
-              onSuccess={() => fetchAppointmentDetails()}
-            />
+            companyId={companyId}
+            filter={filter}
+            setFilter={setFilter}
+            applyFilter={fetchAppointmentDetails}
+            appointmentStatusInfo={appointmentStatusInfo}
+          />
+          <NewBooking
+            services={appointmentServicesInfo}
+            onSuccess={() => fetchAppointmentDetails()}
+          />
         </Box>
 
-        <Box flex={1}>
+        <Box
+          flex={1}
+          overflowY="auto"
+          maxH="calc(100vh - 220px)"
+          pt={{ base: 4, md: 6 }}
+          pb={{ base: 16, md: 20 }}
+        >
           <AppointmentDetails
             appointments={appointments}
             getServiceFromId={getServiceFromId}
