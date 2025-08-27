@@ -1,7 +1,16 @@
-import { Box, Button, HStack, Input, VStack, Collapse } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  Input,
+  VStack,
+  Collapse,
+  IconButton,
+} from "@chakra-ui/react";
 // ...existing code...
 import { Select } from "chakra-react-select";
 import React from "react";
+import { FaSync } from "react-icons/fa";
 
 export const AppointmentFilter = ({
   isAdmin,
@@ -29,13 +38,22 @@ export const AppointmentFilter = ({
             flexWrap="wrap"
             justifyContent={{ base: "center", lg: "flex-start" }}
           >
-            <Input
-              maxW={{ base: "100%", md: "250px" }}
-              type="date"
-              value={filter.date}
-              onChange={(e) => setFilter({ ...filter, date: e.target.value })}
-              flexShrink={0}
-            />
+            <HStack spacing={2}>
+              <Input
+                maxW={{ base: "100%", md: "250px" }}
+                type="date"
+                value={filter.date}
+                onChange={(e) => setFilter({ ...filter, date: e.target.value })}
+                flexShrink={0}
+              />
+              <IconButton
+                icon={<FaSync />}
+                aria-label="Refresh"
+                colorScheme="blue"
+                onClick={applyFilter}
+                size="md"
+              />
+            </HStack>
             {isAdmin ? (
               <Box w={{ base: "100%", md: "300px", lg: "400px" }}>
                 <Select
@@ -66,14 +84,6 @@ export const AppointmentFilter = ({
                 />
               </Box>
             ) : null}
-            <Button
-              w={{ base: "100%", md: "200px", lg: "200px" }}
-              onClick={applyFilter}
-              colorScheme="blue"
-              flexShrink={0}
-            >
-              Refresh
-            </Button>
           </HStack>
         </Box>
       </Collapse>
