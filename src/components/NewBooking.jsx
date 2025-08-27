@@ -1,4 +1,5 @@
-import { Button } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
+import { FaCalendarPlus } from "react-icons/fa";
 import { Modal } from "@chakra-ui/react";
 import { AppointmentBookingForm } from "./AppointmentBookingForm";
 import { useDisclosure } from "@chakra-ui/react";
@@ -15,17 +16,32 @@ export const NewBooking = ({ services, onSuccess }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Button
-        w={{ base: "100%", md: "fit-content" }}
-        colorScheme="blue"
-        onClick={() => {
-          onOpen();
-          console.log("New booking booked");
-        }}
-        m={{ base: 2, md: 4 }}
+      <Box
+        position="fixed"
+        left={0}
+        bottom={0}
+        w="100%"
+        zIndex={1000}
+        bg="whiteAlpha.900"
+        boxShadow="0 -2px 12px rgba(0,0,0,0.08)"
+        p={{ base: 2, md: 4 }}
       >
-        Book New Appointment
-      </Button>
+        <Button
+          w={{ base: "100%", md: "fit-content" }}
+          colorScheme="blue"
+          leftIcon={<FaCalendarPlus />}
+          fontWeight="bold"
+          fontSize={{ base: "md", md: "lg" }}
+          onClick={() => {
+            onOpen();
+            console.log("New booking booked");
+          }}
+        >
+          <Text>
+            Book New Appointment
+          </Text>
+        </Button>
+      </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent bg="gray.100" p={{ base: 2, md: 0 }}>
