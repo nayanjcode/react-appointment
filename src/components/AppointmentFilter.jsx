@@ -1,15 +1,7 @@
-import {
-  Box,
-  Button,
-  HStack,
-  Input,
-  VStack,
-  IconButton,
-  Collapse,
-} from "@chakra-ui/react";
-import { FaFilter } from "react-icons/fa";
+import { Box, Button, HStack, Input, VStack, Collapse } from "@chakra-ui/react";
+// ...existing code...
 import { Select } from "chakra-react-select";
-import React, { useState } from "react";
+import React from "react";
 
 export const AppointmentFilter = ({
   isAdmin,
@@ -18,22 +10,10 @@ export const AppointmentFilter = ({
   setFilter,
   applyFilter,
   appointmentStatusInfo,
+  showFilters,
 }) => {
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [showFilters, setShowFilters] = useState(false);
-
   return (
     <Box w="100%" mb={2}>
-      <IconButton
-        icon={<FaFilter />}
-        aria-label={showFilters ? "Hide filters" : "Show filters"}
-        colorScheme={showFilters ? "gray" : "blue"}
-        variant={showFilters ? "outline" : "solid"}
-        size="md"
-        mb={2}
-        alignSelf="flex-end"
-        onClick={() => setShowFilters((v) => !v)}
-      />
       <Collapse in={showFilters} animateOpacity>
         <Box
           w="100%"
@@ -79,7 +59,9 @@ export const AppointmentFilter = ({
                   isClearable={false}
                   isMulti={true}
                   hideSelectedOptions={false}
-                  menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
+                  menuPortalTarget={
+                    typeof window !== "undefined" ? document.body : null
+                  }
                   menuPosition="fixed"
                 />
               </Box>

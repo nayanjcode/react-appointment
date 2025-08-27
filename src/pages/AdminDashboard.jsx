@@ -8,6 +8,8 @@ import {
   useToast,
   HStack,
   Text,
+  IconButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { AppointmentDetails } from "../components/AppointmentDetails";
 import { NewBooking } from "../components/NewBooking";
@@ -15,9 +17,11 @@ import { useParams } from "react-router-dom";
 import { useGetCompanyDetails } from "../hooks/useGetCompanyDetails";
 import { useGetAppointmentDetails } from "../hooks/useGetAppointmentDetails";
 import { AppointmentFilter } from "../components/AppointmentFilter";
+import { FaFilter } from "react-icons/fa";
 import { APPOINTMENT_STATUS } from "../constants";
 
 export default function AdminDashboard() {
+  const filterDisclosure = useDisclosure();
   const { companyId } = useParams();
   const [filter, setFilter] = useState({
     date: new Date().toISOString().split("T")[0],
@@ -72,6 +76,18 @@ export default function AdminDashboard() {
 
       <VStack align="stretch" spacing={{ base: 2, md: 4 }}>
         <Box pos="sticky" top="0" bg="white">
+          <IconButton
+            icon={<FaFilter />}
+            aria-label={
+              filterDisclosure.isOpen ? "Hide filters" : "Show filters"
+            }
+            colorScheme={filterDisclosure.isOpen ? "gray" : "blue"}
+            variant={filterDisclosure.isOpen ? "outline" : "solid"}
+            size="md"
+            mb={2}
+            alignSelf="flex-end"
+            onClick={filterDisclosure.onToggle}
+          />
           <AppointmentFilter
             isAdmin={true}
             companyId={companyId}
@@ -79,6 +95,7 @@ export default function AdminDashboard() {
             setFilter={setFilter}
             applyFilter={fetchAppointmentDetails}
             appointmentStatusInfo={appointmentStatusInfo}
+            showFilters={filterDisclosure.isOpen}
           />
           <NewBooking
             services={appointmentServicesInfo}

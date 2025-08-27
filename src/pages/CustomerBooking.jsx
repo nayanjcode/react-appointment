@@ -9,6 +9,8 @@ import {
   useToast,
   Text,
   HStack,
+  IconButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { APPOINTMENT_STATUS } from "../constants";
@@ -17,8 +19,10 @@ import { useGetAppointmentDetails } from "../hooks/useGetAppointmentDetails";
 import { AppointmentDetails } from "../components/AppointmentDetails";
 import { NewBooking } from "../components/NewBooking";
 import { AppointmentFilter } from "../components/AppointmentFilter";
+import { FaFilter } from "react-icons/fa";
 
 export default function CustomerBooking() {
+  const filterDisclosure = useDisclosure();
   const { companyId } = useParams();
   const [filter, setFilter] = useState({
     date: new Date().toISOString().split("T")[0],
@@ -72,12 +76,25 @@ export default function CustomerBooking() {
       </Heading>
       <VStack align="stretch" m={2} spacing={{ base: 2, md: 4 }}>
         <Box pos="sticky" top="0" bg="white">
+          <IconButton
+            icon={<FaFilter />}
+            aria-label={
+              filterDisclosure.isOpen ? "Hide filters" : "Show filters"
+            }
+            colorScheme={filterDisclosure.isOpen ? "gray" : "blue"}
+            variant={filterDisclosure.isOpen ? "outline" : "solid"}
+            size="md"
+            mb={2}
+            alignSelf="flex-end"
+            onClick={filterDisclosure.onToggle}
+          />
           <AppointmentFilter
             companyId={companyId}
             filter={filter}
             setFilter={setFilter}
             applyFilter={fetchAppointmentDetails}
             appointmentStatusInfo={appointmentStatusInfo}
+            showFilters={filterDisclosure.isOpen}
           />
           <NewBooking
             services={appointmentServicesInfo}
