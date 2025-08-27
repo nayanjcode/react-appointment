@@ -17,7 +17,6 @@ import { useGetAppointmentDetails } from "../hooks/useGetAppointmentDetails";
 import { AppointmentDetails } from "../components/AppointmentDetails";
 import { NewBooking } from "../components/NewBooking";
 import { AppointmentFilter } from "../components/AppointmentFilter";
-import { AppHeader } from "../components/AppHeader";
 
 export default function CustomerBooking() {
   const { companyId } = useParams();
