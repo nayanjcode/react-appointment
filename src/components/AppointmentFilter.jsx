@@ -1,16 +1,11 @@
 import {
   Box,
-  Button,
   HStack,
   Input,
-  VStack,
   Collapse,
-  IconButton,
 } from "@chakra-ui/react";
 // ...existing code...
 import { Select } from "chakra-react-select";
-import React from "react";
-import { FaSync } from "react-icons/fa";
 
 export const AppointmentFilter = ({
   isAdmin,
