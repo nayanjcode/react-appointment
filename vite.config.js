@@ -8,7 +8,8 @@ export default defineConfig({
     host: '0.0.0.0',
     proxy: {
       '/appointment': {
-        target: 'http://localhost:8082',
+//       target: 'http://localhost:8082',
+         target: 'https://appointment-a29e.onrender.com',
         changeOrigin: true
       }
     },
