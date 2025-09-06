@@ -75,7 +75,7 @@ export const AppointmentCard = ({
             hour: "2-digit",
             minute: "2-digit",
             hour12: true,
-          }).format(new Date(appointment.appointmentDate))}
+          }).format(new Date(appointment.epochMillis))}
         </Text>
         <Box pt={2}>
           <StatusAction

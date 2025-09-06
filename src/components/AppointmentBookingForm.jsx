@@ -31,7 +31,7 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
   const toast = useToast();
 
   const fetchNextAppointmentTime = useCallback(() => {
-    apiGet(`/appointment/findNextAppointmentTime?companyId=${companyId}`)
+    apiGet(`/appointment/findNextAppointmentTime?companyId=${companyId}&tzOffset=${new Date().getTimezoneOffset() * 60}`)
       .then((latestSlot) =>
         setNextAppointmentTime(
           new Intl.DateTimeFormat("en-GB", {
@@ -77,6 +77,7 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
         phone: form.phone,
         email: form.email,
         companyId: Number(companyId),
+        tzOffset: new Date().getTimezoneOffset() * 60
       });
       toast({
         title: "Booking submitted",

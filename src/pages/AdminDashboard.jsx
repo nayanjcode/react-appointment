@@ -25,6 +25,7 @@ export default function AdminDashboard() {
   const { companyId } = useParams();
   const [filter, setFilter] = useState({
     date: new Date().toISOString().split("T")[0],
+    tzOffset: new Date().getTimezoneOffset() * 60,
     status: [
       APPOINTMENT_STATUS.IN_PROGRESS,
       APPOINTMENT_STATUS.PENDING,

@@ -11,6 +11,7 @@ export const useGetAppointmentDetails = (companyId, filter) => {
     const request = {};
     request.companyId = companyId ? companyId : 0;
     request.filter = filter;
+    request.tzOffset = new Date().getTimezoneOffset() * 60;
     apiSend(`/appointment/getAppointments`, 'POST', request)
       .then((appointmentData) => {
         const formattedAppointments = appointmentData.map(ap => {
