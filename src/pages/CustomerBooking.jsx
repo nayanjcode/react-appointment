@@ -11,6 +11,7 @@ import {
   HStack,
   IconButton,
   useDisclosure,
+  Center,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { APPOINTMENT_STATUS } from "../constants";
@@ -20,6 +21,7 @@ import { AppointmentDetails } from "../components/AppointmentDetails";
 import { NewBooking } from "../components/NewBooking";
 import { AppointmentFilter } from "../components/AppointmentFilter";
 import { FaFilter, FaSync } from "react-icons/fa";
+import { AppointmentSpinner } from "../components/AppointmentSpinner";
 
 export default function CustomerBooking() {
   const filterDisclosure = useDisclosure();
@@ -45,11 +47,13 @@ export default function CustomerBooking() {
     appointmentServicesInfo,
     getStatusFromId,
     getServiceFromId,
+    isLoading
   } = useGetCompanyDetails(companyId ? companyId : 0);
   const {
     appointmentDetails,
     fetchAppointmentDetails,
     updateAppointmentStatus,
+    isLoadingAppointments
   } = useGetAppointmentDetails(companyId ? companyId : 0, filter);
 
   useEffect(() => {
@@ -57,6 +61,9 @@ export default function CustomerBooking() {
   }, [appointmentDetails]);
 
   return (
+      isLoading ? <Center h="100vh">
+        <AppointmentSpinner isLoading={isLoading} />
+        </Center> :
     <Box
       maxW={{ base: "100%", md: "8xl" }}
       mx="auto"
@@ -123,6 +130,7 @@ export default function CustomerBooking() {
             getServiceFromId={getServiceFromId}
             getStatusFromId={getStatusFromId}
             updateAppointmentStatus={updateAppointmentStatus}
+            isLoading={isLoadingAppointments}
           />
         </Box>
       </VStack>

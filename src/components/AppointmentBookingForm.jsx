@@ -1,9 +1,11 @@
-import { Input, Button, Heading, Text, VStack, HStack } from "@chakra-ui/react";
+import { Input, Button, Heading, Text, VStack, HStack, Center } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { apiGet, apiSend } from "../utils/api";
 import { Select } from "chakra-react-select";
+import { s } from "framer-motion/client";
+import { AppointmentSpinner } from "./AppointmentSpinner";
 
 export const AppointmentBookingForm = ({ services, onSuccess }) => {
   const [companyId, setCompanyId] = useState("1");
@@ -26,13 +28,18 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
     email: "",
     phone: "",
   });
+
+  const [isLoadingNextAppointmentTime, setIsLoadingNextAppointmentTime] = useState(true);
+  const [isBookingInProgress, setIsBookingInProgress] = useState(false);
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   const toast = useToast();
 
   const fetchNextAppointmentTime = useCallback(() => {
+    setIsLoadingNextAppointmentTime(true);
     apiGet(`/appointment/findNextAppointmentTime?companyId=${companyId}&tzOffset=${new Date().getTimezoneOffset() * 60}`)
       .then((latestSlot) =>
+      {
         setNextAppointmentTime(
           new Intl.DateTimeFormat("en-GB", {
             day: "2-digit",
@@ -43,13 +50,19 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
             hour12: true,
           }).format(new Date(latestSlot))
         )
+        setIsLoadingNextAppointmentTime(false);
+      }
+        
       )
       .catch((e) =>
+      {
         toast({
           title: "Getting latest appointment time failed",
           description: e.message,
           status: "error",
-        })
+          })
+          setIsLoadingNextAppointmentTime(false);
+      }
       );
   }, [companyId]);
 
@@ -68,6 +81,7 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
       return;
     }
     try {
+      setIsBookingInProgress(true);
       await apiSend("/appointment/bookAppointment", "POST", {
         serviceIds: form.serviceIds,
         // appointmentDateTime: form.date + "T" + form.time + ':00',
@@ -93,6 +107,7 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
         phone: "",
         email: "",
       });
+      setIsBookingInProgress(false);
       onSuccess();
     } catch (e) {
       toast({
@@ -100,6 +115,7 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
         description: e.message || "Slot may be taken.",
         status: "error",
       });
+      setIsBookingInProgress(false);
     }
   };
 
@@ -186,8 +202,16 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
           <Button
             onClick={() => fetchNextAppointmentTime()}
             w={{ base: "100%", md: "100px" }}
+            disabled={isLoadingNextAppointmentTime}
           >
-            Refresh
+            {isLoadingNextAppointmentTime ?
+            <Center>
+              <AppointmentSpinner isLoading={false} size="lg" color="gray.400" thickness="3px" />
+            </Center>
+            : 
+            <Text>
+              Refresh
+            </Text>}
           </Button>
         </HStack>
         <Input
@@ -221,9 +245,18 @@ export const AppointmentBookingForm = ({ services, onSuccess }) => {
         <Button
           colorScheme="blue"
           onClick={submit}
+          disabled={isBookingInProgress}
           w={{ base: "100%", md: "auto" }}
         >
-          Book Appointment
+          {isBookingInProgress ?
+          <Center>
+            <AppointmentSpinner isLoading={true} size="lg" color="white" thickness="3px" />
+          </Center>
+          :
+          <Text>
+            Book Appointment
+          </Text>
+          }
         </Button>
         <Text
           fontSize={{ base: "xs", md: "sm" }}

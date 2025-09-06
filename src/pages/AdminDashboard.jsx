@@ -10,6 +10,8 @@ import {
   Text,
   IconButton,
   useDisclosure,
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
 import { AppointmentDetails } from "../components/AppointmentDetails";
 import { NewBooking } from "../components/NewBooking";
@@ -19,6 +21,7 @@ import { useGetAppointmentDetails } from "../hooks/useGetAppointmentDetails";
 import { AppointmentFilter } from "../components/AppointmentFilter";
 import { FaFilter, FaSync } from "react-icons/fa";
 import { APPOINTMENT_STATUS } from "../constants";
+import { AppointmentSpinner } from "../components/AppointmentSpinner";
 
 export default function AdminDashboard() {
   const filterDisclosure = useDisclosure();
@@ -44,11 +47,13 @@ export default function AdminDashboard() {
     appointmentServicesInfo,
     getStatusFromId,
     getServiceFromId,
+    isLoading
   } = useGetCompanyDetails(companyId ? companyId : 0);
   const {
     appointmentDetails,
     fetchAppointmentDetails,
     updateAppointmentStatus,
+    isLoadingAppointments
   } = useGetAppointmentDetails(companyId ? companyId : 0, filter);
 
   useEffect(() => {
@@ -56,6 +61,10 @@ export default function AdminDashboard() {
   }, [appointmentDetails]);
 
   return (
+    isLoading ?
+    <Center h="100vh">
+      <AppointmentSpinner isLoading={true}/>
+    </Center> :
     <Box
       maxW={{ base: "100%", md: "8xl" }}
       mx="auto"
@@ -71,7 +80,7 @@ export default function AdminDashboard() {
           companyDetails
             ? companyDetails.filter((c) => c.companyId == companyId)[0]
                 ?.companyName
-            : "Nayan Test Company"
+            : ""
         }`}
       </Heading>
 
@@ -125,6 +134,7 @@ export default function AdminDashboard() {
             getServiceFromId={getServiceFromId}
             getStatusFromId={getStatusFromId}
             updateAppointmentStatus={updateAppointmentStatus}
+            isLoading={isLoadingAppointments}
           />
         </Box>
       </VStack>

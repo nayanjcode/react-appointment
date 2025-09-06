@@ -1,5 +1,7 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Text } from "@chakra-ui/react";
 import { APPOINTMENT_STATUS } from "../constants";
+import { useEffect, useState } from "react";
+import { AppointmentSpinner } from "./AppointmentSpinner";
 
 export const StatusAction = ({
   appointmentId,
@@ -7,6 +9,14 @@ export const StatusAction = ({
   isAdmin,
   updateAppointmentStatus,
 }) => {
+  const [isConfirming, setIsConfirming] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
+  const [isCompleting, setIsCompleting] = useState(false);
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  useEffect(()=> {
+    setIsUpdatingStatus(isConfirming || isCancelling || isStarting || isCompleting)
+  })
   return (
     <>
       {statusId === APPOINTMENT_STATUS.PENDING && (
@@ -15,28 +25,50 @@ export const StatusAction = ({
             <Button
               size="sm"
               mr={2}
+              disabled={isUpdatingStatus}
               onClick={() =>
+              {
+                setIsConfirming(true);
                 updateAppointmentStatus(
                   appointmentId,
-                  APPOINTMENT_STATUS.CONFIRMED
+                  APPOINTMENT_STATUS.CONFIRMED,
+                  () => setIsConfirming(false)
                 )
+              }
               }
               colorScheme="blue"
             >
-              Confirm
+              <Text>Confirm</Text>
+              {
+                isConfirming ? 
+                <AppointmentSpinner isLoading={true} size="sm" ml={2} thickness="3px"/>
+                :null
+                }
+              
             </Button>
           ) : null}
           <Button
             size="sm"
+            disabled={isUpdatingStatus}
             onClick={() =>
+            {
+              setIsCancelling(true)
               updateAppointmentStatus(
                 appointmentId,
-                APPOINTMENT_STATUS.CANCELLED
-              )
+                APPOINTMENT_STATUS.CANCELLED,
+                () => setIsCancelling(false)
+              );
+            }
             }
             colorScheme="red"
           >
-            Cancel
+
+              <Text>Cancel</Text>
+              {
+                isCancelling ? 
+                <AppointmentSpinner isLoading={true} size="sm" ml={2} thickness="3px"/>
+                :null
+                }
           </Button>
         </>
       )}
@@ -45,28 +77,49 @@ export const StatusAction = ({
           <Button
             size="sm"
             mr={2}
+            disabled={isUpdatingStatus}
             onClick={() =>
+            {
+              setIsCancelling(true);
               updateAppointmentStatus(
                 appointmentId,
-                APPOINTMENT_STATUS.CANCELLED
+                APPOINTMENT_STATUS.CANCELLED,
+                () => setIsCancelling(false)
               )
+            }
             }
             colorScheme="red"
           >
-            Cancel
+
+              <Text>Cancel</Text>
+              {
+                isCancelling ? 
+                <AppointmentSpinner isLoading={true} size="sm" ml={2} thickness="3px"/>
+                :null
+                }
           </Button>
           {isAdmin ? (
             <Button 
               size="sm"
+              disabled={isUpdatingStatus}
               onClick={() =>
+              {
+                setIsStarting(true);
                 updateAppointmentStatus(
                   appointmentId,
-                  APPOINTMENT_STATUS.IN_PROGRESS
+                  APPOINTMENT_STATUS.IN_PROGRESS,
+                  () => setIsStarting(false)
                 )
+              }
               }
               colorScheme="blue"
             >
-              Start
+              <Text>Start</Text>
+              {
+                isStarting ? 
+                <AppointmentSpinner isLoading={true} size="sm" ml={2} thickness="3px"/>
+                :null
+                }
             </Button>
           ) : null}
         </>
@@ -74,15 +127,26 @@ export const StatusAction = ({
       {statusId === APPOINTMENT_STATUS.IN_PROGRESS && isAdmin && (
           <Button
             size="sm"
+            disabled={isUpdatingStatus}
             onClick={() =>
+            {
+              setIsCompleting(true);
               updateAppointmentStatus(
                 appointmentId,
-                APPOINTMENT_STATUS.COMPLETED
+                APPOINTMENT_STATUS.COMPLETED,
+                () => setIsCompleting(false),
               )
+            }
             }
             colorScheme="blue"
           >
-            Complete
+
+              <Text>Complete</Text>
+              {
+                isCompleting ? 
+                <AppointmentSpinner isLoading={true} size="sm" ml={2} thickness="3px"/>
+                :null
+                }
           </Button>
       )}
     </>

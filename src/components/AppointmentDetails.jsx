@@ -1,6 +1,7 @@
-import { Box, VStack, Text, Heading, HStack } from "@chakra-ui/react";
+import { Box, VStack, Text, Heading, HStack, Spinner, Center } from "@chakra-ui/react";
 import { AppointmentCard } from "./AppointmentCard";
 import { APPOINTMENT_STATUS } from "../constants";
+import { AppointmentSpinner } from "./AppointmentSpinner";
 
 export const AppointmentDetails = ({
   isAdmin,
@@ -8,6 +9,7 @@ export const AppointmentDetails = ({
   getServiceFromId,
   getStatusFromId,
   updateAppointmentStatus,
+  isLoading
 }) => {
   // Helper: sort by appointment time ascending
   const sortByTime = (arr) =>
@@ -45,6 +47,9 @@ export const AppointmentDetails = ({
   const userSorted = sortByTime(appointments);
 
   return (
+    isLoading ? <Center h="100%">
+      <AppointmentSpinner isLoading={isLoading} />
+      </Center> :
     <VStack w="100%" spacing={4} align="center" py={2} overflow="auto">
       {appointments.length === 0 && (
         <Text color="gray.500" fontSize="md" textAlign="center">
